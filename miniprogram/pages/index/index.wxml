@@ -3,6 +3,7 @@
 
   <view wx:if="{{showCropper}}" class="cropper-wrapper">
     <we-cropper
+      id="cropper"
       src="{{imageSrc}}"
       boundWidth="750"
       boundHeight="750"
