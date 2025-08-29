@@ -3,4 +3,1201 @@
  * (c) 2021 dlhandsome
  * @license MIT
  */
-!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):t.WeCropper=e()}(this,function(){"use strict";var t=void 0,e=["touchstarted","touchmoved","touchended"],o={strokeStyle:"setStrokeStyle",fillStyle:"setFillStyle",lineWidth:"setLineWidth"};function r(n){for(var o=[],t=arguments.length-1;0<t--;)o[t]=arguments[t+1];e.forEach(function(t,e){void 0!==o[e]&&(n[t]=o[e])})}function n(){return t=t||wx.getSystemInfo()}function h(t,e,n){"2d"===t.type?t.ctx[e]=n:t.ctx[o[e]](n)}var a={},i={id:{default:"cropper",get:function(){return a.id},set:function(t){"string"!=typeof t&&console.error("id\uff1a"+t+" is invalid"),a.id=t}},width:{default:750,get:function(){return a.width},set:function(t){"number"!=typeof t&&console.error("width\uff1a"+t+" is invalid"),a.width=t}},height:{default:750,get:function(){return a.height},set:function(t){"number"!=typeof t&&console.error("height\uff1a"+t+" is invalid"),a.height=t}},pixelRatio:{default:n().pixelRatio,get:function(){return a.pixelRatio},set:function(t){"number"!=typeof t&&console.error("pixelRatio\uff1a"+t+" is invalid"),a.pixelRatio=t}},scale:{default:2.5,get:function(){return a.scale},set:function(t){"number"!=typeof t&&console.error("scale\uff1a"+t+" is invalid"),a.scale=t}},zoom:{default:5,get:function(){return a.zoom},set:function(t){"number"!=typeof t?console.error("zoom\uff1a"+t+" is invalid"):(t<0||10<t)&&console.error("zoom should be ranged in 0 ~ 10"),a.zoom=t}},src:{default:"",get:function(){return a.src},set:function(t){"string"!=typeof t&&console.error("src\uff1a"+t+" is invalid"),a.src=t}},cut:{default:{},get:function(){return a.cut},set:function(t){"object"!=typeof t&&console.error("cut\uff1a"+t+" is invalid"),a.cut=t}},boundStyle:{default:{},get:function(){return a.boundStyle},set:function(t){"object"!=typeof t&&console.error("boundStyle\uff1a"+t+" is invalid"),a.boundStyle=t}},onReady:{default:null,get:function(){return a.ready},set:function(t){a.ready=t}},onBeforeImageLoad:{default:null,get:function(){return a.beforeImageLoad},set:function(t){a.beforeImageLoad=t}},onImageLoad:{default:null,get:function(){return a.imageLoad},set:function(t){a.imageLoad=t}},onBeforeDraw:{default:null,get:function(){return a.beforeDraw},set:function(t){a.beforeDraw=t}}},c=n().windowWidth;function l(t){return"function"==typeof t}var u=["ready","beforeImageLoad","beforeDraw","imageLoad"];function s(r){return function(t){for(var o=[],e=arguments.length-1;0<e--;)o[e]=arguments[e+1];return void 0===t&&(t={}),new Promise(function(e,n){t.success=function(t){e(t)},t.fail=function(t){n(t)},r.apply(void 0,[t].concat(o))})}}function g(e,n){return void 0===n&&(n=!1),new Promise(function(t){e.draw&&e.draw(n,t)})}var p=s(wx.getImageInfo),v=s(wx.canvasToTempFilePath),f="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};var d,y=(function(u,h){!function(t){var e=h,n=u&&u.exports==e&&u,o="object"==typeof f&&f;o.global!==o&&o.window!==o||(t=o);function r(t){this.message=t}(r.prototype=new Error).name="InvalidCharacterError";function s(t){throw new r(t)}var d="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",c=/[\t\n\f\r ]/g,a={encode:function(t){t=String(t),/[^\0-\xFF]/.test(t)&&s("The string to be encoded contains characters outside of the Latin1 range.");for(var e,n,o,r,a=t.length%3,i="",c=-1,u=t.length-a;++c<u;)e=t.charCodeAt(c)<<16,n=t.charCodeAt(++c)<<8,o=t.charCodeAt(++c),i+=d.charAt((r=e+n+o)>>18&63)+d.charAt(r>>12&63)+d.charAt(r>>6&63)+d.charAt(63&r);return 2==a?(e=t.charCodeAt(c)<<8,n=t.charCodeAt(++c),i+=d.charAt((r=e+n)>>10)+d.charAt(r>>4&63)+d.charAt(r<<2&63)+"="):1==a&&(r=t.charCodeAt(c),i+=d.charAt(r>>2)+d.charAt(r<<4&63)+"=="),i},decode:function(t){var e=(t=String(t).replace(c,"")).length;(e=e%4==0?(t=t.replace(/==?$/,"")).length:e)%4!=1&&!/[^+a-zA-Z0-9/]/.test(t)||s("Invalid character: the string to be decoded is not correctly encoded.");for(var n,o,r=0,a="",i=-1;++i<e;)o=d.indexOf(t.charAt(i)),n=r%4?64*n+o:o,r++%4&&(a+=String.fromCharCode(255&n>>(-2*r&6)));return a},version:"0.1.0"};if(0,e&&!e.nodeType)if(n)n.exports=a;else for(var i in a)a.hasOwnProperty(i)&&(e[i]=a[i]);else t.base64=a}(f)}(d={exports:{}},d.exports),d.exports);function x(t){var e="";if("string"==typeof t)e=t;else for(var n=0;n<t.length;n++)e+=String.fromCharCode(t[n]);return y.encode(e)}function m(t,e,n,o,r,a,i){var c;void 0===i&&(i=function(){}),a="image/"+(a=void 0===a?"png":a).toLowerCase().replace(/jpg/i,"jpeg").match(/png|jpeg|bmp|gif/)[0],/bmp/.test(a)?(t=t,e=e,n=n,o=o,r=r,c=function(t,e){t=function(t){var e=t.width,n=t.height,o=[66,77,255&(o=54+(r=e*n*3)),o>>8&255,o>>16&255,o>>24&255,0,0,0,0,54,0,0,0],r=[40,0,0,0,255&e,e>>8&255,e>>16&255,e>>24&255,255&n,n>>8&255,n>>16&255,n>>24&255,1,0,24,0,0,0,0,0,255&r,r>>8&255,r>>16&255,r>>24&255,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],a=(4-3*e%4)%4,i=t.data,c="",u=e<<2,s=n,d=String.fromCharCode;do{for(var h=u*(s-1),f="",l=0;l<e;l++){var g=l<<2;f+=d(i[h+g+2])+d(i[h+g+1])+d(i[h+g])}for(var p=0;p<a;p++)f+=String.fromCharCode(0)}while(c+=f,--s);return x(o.concat(r))+x(c)}(t);l(i)&&i("data:image/"+a+";base64,"+t,e)},wx.canvasGetImageData({canvasId:t,x:e,y:n,width:o,height:r,success:function(t){c(t,null)},fail:function(t){c(null,t)}})):console.error("\u6682\u4e0d\u652f\u6301\u751f\u6210'"+a+"'\u7c7b\u578b\u7684base64\u56fe\u7247")}var w=function(t,e){return m((t=void 0===t?{}:t).canvasId,t.x,t.y,t.width,t.height,"bmp",e=void 0===e?function(){}:e)};var b={touchStart:function(t){var e=t.touches,n=e[0],e=e[1];this.src&&(r(this,!0,null,null),this.__oneTouchStart(n),2<=t.touches.length&&this.__twoTouchStart(n,e))},touchMove:function(t){var e=t.touches,n=e[0],e=e[1];this.src&&(r(this,null,!0),1===t.touches.length&&this.__oneTouchMove(n),2<=t.touches.length&&this.__twoTouchMove(n,e))},touchEnd:function(t){this.src&&(r(this,!1,!1,!0),this.__xtouchEnd())}};function C(t){var e,n,o=this,r={};return e=o,n=i,Object.defineProperties(e,n),Object.keys(i).forEach(function(t){r[t]=i[t].default}),Object.assign(o,r,t),o.prepare(),o.attachPage(),o.createCtx(),o.observer(),o.cutt(),o.methods(),o.init(),o.update(),o}return C.prototype.init=function(){var t=this,e=t.src;return t.version="1.4.0","function"==typeof t.onReady&&t.onReady(t.ctx,t),e?t.pushOrign(e):t.updateCanvas(),r(t,!1,!1,!1),t.oldScale=1,t.newScale=1,t},Object.assign(C.prototype,b),C.prototype.prepare=function(){var n=this;n.attachPage=function(){var t=getCurrentPages(),t=t[t.length-1];Object.defineProperty(t,"wecropper",{get:function(){return console.warn("Instance will not be automatically bound to the page after v1.4.0\n\nPlease use a custom instance name instead\n\nExample: \nthis.mycropper = new WeCropper(options)\n\n// ...\nthis.mycropper.getCropperImage()"),n},configurable:!0})},n.createCtx=function(){var t=n.id,e=n.targetId;t?(n.ctx=n.ctx||wx.createCanvasContext(t),n.targetCtx=n.targetCtx||wx.createCanvasContext(e),"function"!=typeof n.ctx.setStrokeStyle&&(n.type="2d")):console.error("constructor: create canvas context failed, 'id' must be valuable")},n.deviceRadio=c/750},C.prototype.observer=function(){var o=this;o.on=function(t,e){var n;return-1<u.indexOf(t)?l(e)&&("ready"===t?e(o):o["on"+((n=t).charAt(0).toUpperCase()+n.slice(1))]=e):console.error("event: "+t+" is invalid"),o}},C.prototype.methods=function(){var a=this,t=a.width,e=a.height,i=a.id,c=a.targetId,u=a.pixelRatio,n=a.cut,s=n.x;void 0===s&&(s=0);var d=n.y;void 0===d&&(d=0);var h=n.width;void 0===h&&(h=t);var f=n.height;void 0===f&&(f=e),a.updateCanvas=function(t){return a.croperTarget&&a.ctx.drawImage(a.croperTarget,a.imgLeft,a.imgTop,a.scaleWidth,a.scaleHeight),l(a.onBeforeDraw)&&a.onBeforeDraw(a.ctx,a),a.setBoundStyle(a.boundStyle),"2d"!==a.type&&a.ctx.draw(!1,t),t&&t(),a},a.pushOrigin=a.pushOrign=function(e){return a.src=e,l(a.onBeforeImageLoad)&&a.onBeforeImageLoad(a.ctx,a),o=a,r=e,new Promise(function(t,e){var n;"2d"===o.type?((n=o.canvas.createImage()).onload=function(){t(n)},n.onerror=function(t){e(t)},n.src=r):t(r)}).then(function(t){return a.croperTarget=t,p({src:e}).then(function(t){t=t.width/t.height;return t<h/f?(a.rectX=s,a.baseWidth=h,a.baseHeight=h/t,a.rectY=d-Math.abs((f-a.baseHeight)/2)):(a.rectY=d,a.baseWidth=f*t,a.baseHeight=f,a.rectX=s-Math.abs((h-a.baseWidth)/2)),a.imgLeft=a.rectX,a.imgTop=a.rectY,a.scaleWidth=a.baseWidth,a.scaleHeight=a.baseHeight,a.update(),new Promise(function(t){a.updateCanvas(t)})}).then(function(){l(a.onImageLoad)&&a.onImageLoad(a.ctx,a)})});var o,r},a.removeImage=function(){return a.src="",a.croperTarget="","2d"===a.type?a.ctx.clearRect(0,0,a.canvas.width,a.canvas.height):g(a.ctx)},a.getCropperBase64=function(t){w({canvasId:i,x:s,y:d,width:h,height:f},t=void 0===t?function(){}:t)},a.getCropperImage=function(t,e){var n=Object.assign({fileType:"jpg"},t),o=l(t)?t:l(e)?e:null,r={canvasId:i,x:s,y:d,width:h,height:f};"2d"===a.type&&(r.canvas=a.canvas);e=function(){return Promise.resolve()};return(e=n.original?function(){return a.targetCtx.drawImage(a.croperTarget,a.imgLeft*u,a.imgTop*u,a.scaleWidth*u,a.scaleHeight*u),r={canvasId:c,x:s*u,y:d*u,width:h*u,height:f*u},g(a.targetCtx)}:e)().then(function(){Object.assign(r,n);var t=r.componentContext?[r,r.componentContext]:[r];return v.apply(null,t)}).then(function(t){t=t.tempFilePath;return o?o.call(a,t,null):t}).catch(function(t){if(!o)throw t;o.call(a,null,t)})}},C.prototype.cutt=function(){var r=this,a=r.width,i=r.height,t=r.cut,c=t.x;void 0===c&&(c=0);var u=t.y;void 0===u&&(u=0);var s=t.width;void 0===s&&(s=a);var d=t.height;void 0===d&&(d=i),r.outsideBound=function(t,e){r.imgLeft=c<=t?c:r.scaleWidth+t-c<=s?c+s-r.scaleWidth:t,r.imgTop=u<=e?u:r.scaleHeight+e-u<=d?u+d-r.scaleHeight:e},r.setBoundStyle=function(t){var e=(t=void 0===t?{}:t).color;void 0===e&&(e="#04b00f");var n=t.mask;void 0===n&&(n="rgba(0, 0, 0, 0.3)");var o=t.lineWidth,t=(o=void 0===o?1:o)/2,t=[{start:{x:c-t,y:u+10-t},step1:{x:c-t,y:u-t},step2:{x:c+10-t,y:u-t}},{start:{x:c-t,y:u+d-10+t},step1:{x:c-t,y:u+d+t},step2:{x:c+10-t,y:u+d+t}},{start:{x:c+s-10+t,y:u-t},step1:{x:c+s+t,y:u-t},step2:{x:c+s+t,y:u+10-t}},{start:{x:c+s+t,y:u+d-10+t},step1:{x:c+s+t,y:u+d+t},step2:{x:c+s-10+t,y:u+d+t}}];r.ctx.beginPath(),h(r,"fillStyle",n),r.ctx.fillRect(0,0,c,i),r.ctx.fillRect(c,0,s,u),r.ctx.fillRect(c,u+d,s,i-u-d),r.ctx.fillRect(c+s,0,a-c-s,i),r.ctx.fill(),t.forEach(function(t){r.ctx.beginPath(),h(r,"strokeStyle",e),h(r,"lineWidth",o),r.ctx.moveTo(t.start.x,t.start.y),r.ctx.lineTo(t.step1.x,t.step1.y),r.ctx.lineTo(t.step2.x,t.step2.y),r.ctx.stroke()})}},C.prototype.update=function(){var c=this;c.src&&(c.__oneTouchStart=function(t){c.touchX0=Math.round(t.x),c.touchY0=Math.round(t.y)},c.__oneTouchMove=function(t){if(c.touchended)return c.updateCanvas();var e=Math.round(t.x-c.touchX0),t=Math.round(t.y-c.touchY0),e=Math.round(c.rectX+e),t=Math.round(c.rectY+t);c.outsideBound(e,t),c.updateCanvas()},c.__twoTouchStart=function(t,e){var n;c.touchX1=Math.round(c.rectX+c.scaleWidth/2),c.touchY1=Math.round(c.rectY+c.scaleHeight/2),n=Math.round(e.x-t.x),t=Math.round(e.y-t.y),t=Math.round(Math.sqrt(n*n+t*t)),c.oldDistance=t},c.__twoTouchMove=function(t,e){var n,o=c.oldScale,r=c.oldDistance,a=c.scale,i=c.zoom;c.newScale=(n=o,o=r,r=i,i=t,t=e,e=Math.round(t.x-i.x),i=Math.round(t.y-i.y),n+.001*r*(Math.round(Math.sqrt(e*e+i*i))-o)),c.newScale<=1&&(c.newScale=1),c.newScale>=a&&(c.newScale=a),c.scaleWidth=Math.round(c.newScale*c.baseWidth),c.scaleHeight=Math.round(c.newScale*c.baseHeight);o=Math.round(c.touchX1-c.scaleWidth/2),a=Math.round(c.touchY1-c.scaleHeight/2);c.outsideBound(o,a),c.updateCanvas()},c.__xtouchEnd=function(){c.oldScale=c.newScale,c.rectX=c.imgLeft,c.rectY=c.imgTop})},C});
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.WeCropper = factory());
+}(this, (function () { 'use strict';
+
+var device = void 0;
+var TOUCH_STATE = ['touchstarted', 'touchmoved', 'touchended'];
+var adaptAPI = {
+  strokeStyle: 'setStrokeStyle',
+  fillStyle: 'setFillStyle',
+  lineWidth: 'setLineWidth'
+};
+
+function firstLetterUpper (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+function setTouchState (instance) {
+  var arg = [], len = arguments.length - 1;
+  while ( len-- > 0 ) arg[ len ] = arguments[ len + 1 ];
+
+  TOUCH_STATE.forEach(function (key, i) {
+    if (arg[i] !== undefined) {
+      instance[key] = arg[i];
+    }
+  });
+}
+
+function validator (instance, o) {
+  Object.defineProperties(instance, o);
+}
+
+function	getDevice () {
+  if (!device) {
+    device = wx.getSystemInfoSync();
+  }
+  return device
+}
+
+function adapt2d (context, handle, value) {
+  if (context.type === '2d') {
+    context.ctx[handle] = value;
+  } else {
+    context.ctx[adaptAPI[handle]](value);
+  }
+}
+
+var tmp = {};
+
+var ref = getDevice();
+var pixelRatio = ref.pixelRatio;
+
+var DEFAULT = {
+  id: {
+    default: 'cropper',
+    get: function get () {
+      return tmp.id
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'string') {
+        console.error(("id：" + value + " is invalid"));
+      }
+      tmp.id = value;
+    }
+  },
+  width: {
+    default: 750,
+    get: function get () {
+      return tmp.width
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'number') {
+        console.error(("width：" + value + " is invalid"));
+      }
+      tmp.width = value;
+    }
+  },
+  height: {
+    default: 750,
+    get: function get () {
+      return tmp.height
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'number') {
+        console.error(("height：" + value + " is invalid"));
+      }
+      tmp.height = value;
+    }
+  },
+  pixelRatio: {
+    default: pixelRatio,
+    get: function get () {
+      return tmp.pixelRatio
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'number') {
+        console.error(("pixelRatio：" + value + " is invalid"));
+      }
+      tmp.pixelRatio = value;
+    }
+  },
+  scale: {
+    default: 2.5,
+    get: function get () {
+      return tmp.scale
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'number') {
+        console.error(("scale：" + value + " is invalid"));
+      }
+      tmp.scale = value;
+    }
+  },
+  zoom: {
+    default: 5,
+    get: function get () {
+      return tmp.zoom
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'number') {
+        console.error(("zoom：" + value + " is invalid"));
+      } else if (value < 0 || value > 10) {
+        console.error("zoom should be ranged in 0 ~ 10");
+      }
+      tmp.zoom = value;
+    }
+  },
+  src: {
+    default: '',
+    get: function get () {
+      return tmp.src
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'string') {
+        console.error(("src：" + value + " is invalid"));
+      }
+      tmp.src = value;
+    }
+  },
+  cut: {
+    default: {},
+    get: function get () {
+      return tmp.cut
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'object') {
+        console.error(("cut：" + value + " is invalid"));
+      }
+      tmp.cut = value;
+    }
+  },
+  boundStyle: {
+    default: {},
+    get: function get () {
+      return tmp.boundStyle
+    },
+    set: function set (value) {
+      if (typeof (value) !== 'object') {
+        console.error(("boundStyle：" + value + " is invalid"));
+      }
+      tmp.boundStyle = value;
+    }
+  },
+  onReady: {
+    default: null,
+    get: function get () {
+      return tmp.ready
+    },
+    set: function set (value) {
+      tmp.ready = value;
+    }
+  },
+  onBeforeImageLoad: {
+    default: null,
+    get: function get () {
+      return tmp.beforeImageLoad
+    },
+    set: function set (value) {
+      tmp.beforeImageLoad = value;
+    }
+  },
+  onImageLoad: {
+    default: null,
+    get: function get () {
+      return tmp.imageLoad
+    },
+    set: function set (value) {
+      tmp.imageLoad = value;
+    }
+  },
+  onBeforeDraw: {
+    default: null,
+    get: function get () {
+      return tmp.beforeDraw
+    },
+    set: function set (value) {
+      tmp.beforeDraw = value;
+    }
+  }
+};
+
+var ref$1 = getDevice();
+var windowWidth = ref$1.windowWidth;
+
+function prepare () {
+  var self = this;
+
+  // v1.4.0 版本中将不再自动绑定we-cropper实例
+  self.attachPage = function () {
+    var pages = getCurrentPages();
+    // 获取到当前page上下文
+    var pageContext = pages[pages.length - 1];
+    // 把this依附在Page上下文的wecropper属性上，便于在page钩子函数中访问
+    Object.defineProperty(pageContext, 'wecropper', {
+      get: function get () {
+        console.warn(
+          'Instance will not be automatically bound to the page after v1.4.0\n\n' +
+          'Please use a custom instance name instead\n\n' +
+          'Example: \n' +
+          'this.mycropper = new WeCropper(options)\n\n' +
+          '// ...\n' +
+          'this.mycropper.getCropperImage()'
+        );
+        return self
+      },
+      configurable: true
+    });
+  };
+
+  self.createCtx = function () {
+    var id = self.id;
+    var targetId = self.targetId;
+
+    if (id) {
+      self.ctx = self.ctx || wx.createCanvasContext(id);
+      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId);
+
+      // 2d 没有这个方法
+      if (typeof self.ctx.setStrokeStyle !== 'function') {
+        self.type = '2d';
+      }
+    } else {
+      console.error("constructor: create canvas context failed, 'id' must be valuable");
+    }
+  };
+
+  self.deviceRadio = windowWidth / 750;
+}
+
+/**
+ * String type check
+ */
+
+/**
+ * Number type check
+ */
+
+/**
+ * Array type check
+ */
+
+/**
+ * undefined type check
+ */
+
+
+
+
+
+/**
+ * Function type check
+ */
+var isFunc = function (v) { return typeof v === 'function'; };
+/**
+ * Quick object check - this is primarily used to tell
+ * Objects from primitive values when we know the value
+ * is a JSON-compliant type.
+ */
+
+
+
+
+
+
+/**
+ * Perform no operation.
+ * Stubbing args to make Flow happy without leaving useless transpiled code
+ * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/)
+ */
+
+
+/**
+ * Check if val is a valid array index.
+ */
+
+var EVENT_TYPE = ['ready', 'beforeImageLoad', 'beforeDraw', 'imageLoad'];
+
+function observer () {
+  var self = this;
+
+  self.on = function (event, fn) {
+    if (EVENT_TYPE.indexOf(event) > -1) {
+      if (isFunc(fn)) {
+        event === 'ready'
+          ? fn(self)
+          : self[("on" + (firstLetterUpper(event)))] = fn;
+      }
+    } else {
+      console.error(("event: " + event + " is invalid"));
+    }
+    return self
+  };
+}
+
+function wxPromise (fn) {
+  return function (obj) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+    if ( obj === void 0 ) obj = {};
+    return new Promise(function (resolve, reject) {
+      obj.success = function (res) {
+        resolve(res);
+      };
+      obj.fail = function (err) {
+        reject(err);
+      };
+      fn.apply(void 0, [ obj ].concat( args ));
+    })
+  }
+}
+
+function draw (ctx, reserve) {
+  if ( reserve === void 0 ) reserve = false;
+
+  return new Promise(function (resolve) {
+    ctx.draw && ctx.draw(reserve, resolve);
+  })
+}
+
+var getImageInfo = wxPromise(wx.getImageInfo);
+
+var canvasToTempFilePath = wxPromise(wx.canvasToTempFilePath);
+
+var loadCanvasImage = function (context, src) {
+  return new Promise(function (resolve, reject) {
+    if (context.type === '2d') {
+      var img = context.canvas.createImage();
+      img.onload = function () {
+        resolve(img);
+      };
+      img.onerror = function (e) {
+        reject(e);
+      };
+      img.src = src;
+    } else {
+      resolve(src);
+    }
+  })
+};
+
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+
+
+
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var base64 = createCommonjsModule(function (module, exports) {
+/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+(function(root) {
+
+	// Detect free variables `exports`.
+	var freeExports = 'object' == 'object' && exports;
+
+	// Detect free variable `module`.
+	var freeModule = 'object' == 'object' && module &&
+		module.exports == freeExports && module;
+
+	// Detect free variable `global`, from Node.js or Browserified code, and use
+	// it as `root`.
+	var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal;
+	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal) {
+		root = freeGlobal;
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	var InvalidCharacterError = function(message) {
+		this.message = message;
+	};
+	InvalidCharacterError.prototype = new Error;
+	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+	var error = function(message) {
+		// Note: the error messages used throughout this file match those used by
+		// the native `atob`/`btoa` implementation in Chromium.
+		throw new InvalidCharacterError(message);
+	};
+
+	var TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+	// http://whatwg.org/html/common-microsyntaxes.html#space-character
+	var REGEX_SPACE_CHARACTERS = /[\t\n\f\r ]/g;
+
+	// `decode` is designed to be fully compatible with `atob` as described in the
+	// HTML Standard. http://whatwg.org/html/webappapis.html#dom-windowbase64-atob
+	// The optimized base64-decoding algorithm used is based on @atk’s excellent
+	// implementation. https://gist.github.com/atk/1020396
+	var decode = function(input) {
+		input = String(input)
+			.replace(REGEX_SPACE_CHARACTERS, '');
+		var length = input.length;
+		if (length % 4 == 0) {
+			input = input.replace(/==?$/, '');
+			length = input.length;
+		}
+		if (
+			length % 4 == 1 ||
+			// http://whatwg.org/C#alphanumeric-ascii-characters
+			/[^+a-zA-Z0-9/]/.test(input)
+		) {
+			error(
+				'Invalid character: the string to be decoded is not correctly encoded.'
+			);
+		}
+		var bitCounter = 0;
+		var bitStorage;
+		var buffer;
+		var output = '';
+		var position = -1;
+		while (++position < length) {
+			buffer = TABLE.indexOf(input.charAt(position));
+			bitStorage = bitCounter % 4 ? bitStorage * 64 + buffer : buffer;
+			// Unless this is the first of a group of 4 characters…
+			if (bitCounter++ % 4) {
+				// …convert the first 8 bits to a single ASCII character.
+				output += String.fromCharCode(
+					0xFF & bitStorage >> (-2 * bitCounter & 6)
+				);
+			}
+		}
+		return output;
+	};
+
+	// `encode` is designed to be fully compatible with `btoa` as described in the
+	// HTML Standard: http://whatwg.org/html/webappapis.html#dom-windowbase64-btoa
+	var encode = function(input) {
+		input = String(input);
+		if (/[^\0-\xFF]/.test(input)) {
+			// Note: no need to special-case astral symbols here, as surrogates are
+			// matched, and the input is supposed to only contain ASCII anyway.
+			error(
+				'The string to be encoded contains characters outside of the ' +
+				'Latin1 range.'
+			);
+		}
+		var padding = input.length % 3;
+		var output = '';
+		var position = -1;
+		var a;
+		var b;
+		var c;
+		var buffer;
+		// Make sure any padding is handled outside of the loop.
+		var length = input.length - padding;
+
+		while (++position < length) {
+			// Read three bytes, i.e. 24 bits.
+			a = input.charCodeAt(position) << 16;
+			b = input.charCodeAt(++position) << 8;
+			c = input.charCodeAt(++position);
+			buffer = a + b + c;
+			// Turn the 24 bits into four chunks of 6 bits each, and append the
+			// matching character for each of them to the output.
+			output += (
+				TABLE.charAt(buffer >> 18 & 0x3F) +
+				TABLE.charAt(buffer >> 12 & 0x3F) +
+				TABLE.charAt(buffer >> 6 & 0x3F) +
+				TABLE.charAt(buffer & 0x3F)
+			);
+		}
+
+		if (padding == 2) {
+			a = input.charCodeAt(position) << 8;
+			b = input.charCodeAt(++position);
+			buffer = a + b;
+			output += (
+				TABLE.charAt(buffer >> 10) +
+				TABLE.charAt((buffer >> 4) & 0x3F) +
+				TABLE.charAt((buffer << 2) & 0x3F) +
+				'='
+			);
+		} else if (padding == 1) {
+			buffer = input.charCodeAt(position);
+			output += (
+				TABLE.charAt(buffer >> 2) +
+				TABLE.charAt((buffer << 4) & 0x3F) +
+				'=='
+			);
+		}
+
+		return output;
+	};
+
+	var base64 = {
+		'encode': encode,
+		'decode': decode,
+		'version': '0.1.0'
+	};
+
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		typeof undefined == 'function' &&
+		typeof undefined.amd == 'object' &&
+		undefined.amd
+	) {
+		undefined(function() {
+			return base64;
+		});
+	}	else if (freeExports && !freeExports.nodeType) {
+		if (freeModule) { // in Node.js or RingoJS v0.8.0+
+			freeModule.exports = base64;
+		} else { // in Narwhal or RingoJS v0.7.0-
+			for (var key in base64) {
+				base64.hasOwnProperty(key) && (freeExports[key] = base64[key]);
+			}
+		}
+	} else { // in Rhino or a web browser
+		root.base64 = base64;
+	}
+
+}(commonjsGlobal));
+});
+
+function makeURI (strData, type) {
+  return 'data:' + type + ';base64,' + strData
+}
+
+function fixType (type) {
+  type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+  var r = type.match(/png|jpeg|bmp|gif/)[0];
+  return 'image/' + r
+}
+
+function encodeData (data) {
+  var str = '';
+  if (typeof data === 'string') {
+    str = data;
+  } else {
+    for (var i = 0; i < data.length; i++) {
+      str += String.fromCharCode(data[i]);
+    }
+  }
+  return base64.encode(str)
+}
+
+/**
+ * 获取图像区域隐含的像素数据
+ * @param canvasId canvas标识
+ * @param x 将要被提取的图像数据矩形区域的左上角 x 坐标
+ * @param y 将要被提取的图像数据矩形区域的左上角 y 坐标
+ * @param width 将要被提取的图像数据矩形区域的宽度
+ * @param height 将要被提取的图像数据矩形区域的高度
+ * @param done 完成回调
+ */
+function getImageData (canvasId, x, y, width, height, done) {
+  wx.canvasGetImageData({
+    canvasId: canvasId,
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    success: function success (res) {
+      done(res, null);
+    },
+    fail: function fail (res) {
+      done(null, res);
+    }
+  });
+}
+
+/**
+ * 生成bmp格式图片
+ * 按照规则生成图片响应头和响应体
+ * @param oData 用来描述 canvas 区域隐含的像素数据 { data, width, height } = oData
+ * @returns {*} base64字符串
+ */
+function genBitmapImage (oData) {
+  //
+  // BITMAPFILEHEADER: http://msdn.microsoft.com/en-us/library/windows/desktop/dd183374(v=vs.85).aspx
+  // BITMAPINFOHEADER: http://msdn.microsoft.com/en-us/library/dd183376.aspx
+  //
+  var biWidth = oData.width;
+  var biHeight	= oData.height;
+  var biSizeImage = biWidth * biHeight * 3;
+  var bfSize = biSizeImage + 54; // total header size = 54 bytes
+
+  //
+  //  typedef struct tagBITMAPFILEHEADER {
+  //  	WORD bfType;
+  //  	DWORD bfSize;
+  //  	WORD bfReserved1;
+  //  	WORD bfReserved2;
+  //  	DWORD bfOffBits;
+  //  } BITMAPFILEHEADER;
+  //
+  var BITMAPFILEHEADER = [
+    // WORD bfType -- The file type signature; must be "BM"
+    0x42, 0x4D,
+    // DWORD bfSize -- The size, in bytes, of the bitmap file
+    bfSize & 0xff, bfSize >> 8 & 0xff, bfSize >> 16 & 0xff, bfSize >> 24 & 0xff,
+    // WORD bfReserved1 -- Reserved; must be zero
+    0, 0,
+    // WORD bfReserved2 -- Reserved; must be zero
+    0, 0,
+    // DWORD bfOffBits -- The offset, in bytes, from the beginning of the BITMAPFILEHEADER structure to the bitmap bits.
+    54, 0, 0, 0
+  ];
+
+  //
+  //  typedef struct tagBITMAPINFOHEADER {
+  //  	DWORD biSize;
+  //  	LONG  biWidth;
+  //  	LONG  biHeight;
+  //  	WORD  biPlanes;
+  //  	WORD  biBitCount;
+  //  	DWORD biCompression;
+  //  	DWORD biSizeImage;
+  //  	LONG  biXPelsPerMeter;
+  //  	LONG  biYPelsPerMeter;
+  //  	DWORD biClrUsed;
+  //  	DWORD biClrImportant;
+  //  } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
+  //
+  var BITMAPINFOHEADER = [
+    // DWORD biSize -- The number of bytes required by the structure
+    40, 0, 0, 0,
+    // LONG biWidth -- The width of the bitmap, in pixels
+    biWidth & 0xff, biWidth >> 8 & 0xff, biWidth >> 16 & 0xff, biWidth >> 24 & 0xff,
+    // LONG biHeight -- The height of the bitmap, in pixels
+    biHeight & 0xff, biHeight >> 8 & 0xff, biHeight >> 16 & 0xff, biHeight >> 24 & 0xff,
+    // WORD biPlanes -- The number of planes for the target device. This value must be set to 1
+    1, 0,
+    // WORD biBitCount -- The number of bits-per-pixel, 24 bits-per-pixel -- the bitmap
+    // has a maximum of 2^24 colors (16777216, Truecolor)
+    24, 0,
+    // DWORD biCompression -- The type of compression, BI_RGB (code 0) -- uncompressed
+    0, 0, 0, 0,
+    // DWORD biSizeImage -- The size, in bytes, of the image. This may be set to zero for BI_RGB bitmaps
+    biSizeImage & 0xff, biSizeImage >> 8 & 0xff, biSizeImage >> 16 & 0xff, biSizeImage >> 24 & 0xff,
+    // LONG biXPelsPerMeter, unused
+    0, 0, 0, 0,
+    // LONG biYPelsPerMeter, unused
+    0, 0, 0, 0,
+    // DWORD biClrUsed, the number of color indexes of palette, unused
+    0, 0, 0, 0,
+    // DWORD biClrImportant, unused
+    0, 0, 0, 0
+  ];
+
+  var iPadding = (4 - ((biWidth * 3) % 4)) % 4;
+
+  var aImgData = oData.data;
+
+  var strPixelData = '';
+  var biWidth4 = biWidth << 2;
+  var y = biHeight;
+  var fromCharCode = String.fromCharCode;
+
+  do {
+    var iOffsetY = biWidth4 * (y - 1);
+    var strPixelRow = '';
+    for (var x = 0; x < biWidth; x++) {
+      var iOffsetX = x << 2;
+      strPixelRow += fromCharCode(aImgData[iOffsetY + iOffsetX + 2]) +
+        fromCharCode(aImgData[iOffsetY + iOffsetX + 1]) +
+        fromCharCode(aImgData[iOffsetY + iOffsetX]);
+    }
+
+    for (var c = 0; c < iPadding; c++) {
+      strPixelRow += String.fromCharCode(0);
+    }
+
+    strPixelData += strPixelRow;
+  } while (--y)
+
+  var strEncoded = encodeData(BITMAPFILEHEADER.concat(BITMAPINFOHEADER)) + encodeData(strPixelData);
+
+  return strEncoded
+}
+
+/**
+ * 转换为图片base64
+ * @param canvasId canvas标识
+ * @param x 将要被提取的图像数据矩形区域的左上角 x 坐标
+ * @param y 将要被提取的图像数据矩形区域的左上角 y 坐标
+ * @param width 将要被提取的图像数据矩形区域的宽度
+ * @param height 将要被提取的图像数据矩形区域的高度
+ * @param type 转换图片类型
+ * @param done 完成回调
+ */
+function convertToImage (canvasId, x, y, width, height, type, done) {
+  if ( done === void 0 ) done = function () {};
+
+  if (type === undefined) { type = 'png'; }
+  type = fixType(type);
+  if (/bmp/.test(type)) {
+    getImageData(canvasId, x, y, width, height, function (data, err) {
+      var strData = genBitmapImage(data);
+      isFunc(done) && done(makeURI(strData, 'image/' + type), err);
+    });
+  } else {
+    console.error('暂不支持生成\'' + type + '\'类型的base64图片');
+  }
+}
+
+var CanvasToBase64 = {
+  convertToImage: convertToImage,
+  // convertToPNG: function (width, height, done) {
+  //   return convertToImage(width, height, 'png', done)
+  // },
+  // convertToJPEG: function (width, height, done) {
+  //   return convertToImage(width, height, 'jpeg', done)
+  // },
+  // convertToGIF: function (width, height, done) {
+  //   return convertToImage(width, height, 'gif', done)
+  // },
+  convertToBMP: function (ref, done) {
+    if ( ref === void 0 ) ref = {};
+    var canvasId = ref.canvasId;
+    var x = ref.x;
+    var y = ref.y;
+    var width = ref.width;
+    var height = ref.height;
+    if ( done === void 0 ) done = function () {};
+
+    return convertToImage(canvasId, x, y, width, height, 'bmp', done)
+  }
+};
+
+function methods () {
+  var self = this;
+
+  var boundWidth = self.width; // 裁剪框默认宽度，即整个画布宽度
+  var boundHeight = self.height; // 裁剪框默认高度，即整个画布高度
+
+  var id = self.id;
+  var targetId = self.targetId;
+  var pixelRatio = self.pixelRatio;
+
+  var ref = self.cut;
+  var x = ref.x; if ( x === void 0 ) x = 0;
+  var y = ref.y; if ( y === void 0 ) y = 0;
+  var width = ref.width; if ( width === void 0 ) width = boundWidth;
+  var height = ref.height; if ( height === void 0 ) height = boundHeight;
+
+  self.updateCanvas = function (done) {
+    if (self.croperTarget) {
+      //  画布绘制图片
+      self.ctx.drawImage(
+        self.croperTarget,
+        self.imgLeft,
+        self.imgTop,
+        self.scaleWidth,
+        self.scaleHeight
+      );
+    }
+    isFunc(self.onBeforeDraw) && self.onBeforeDraw(self.ctx, self);
+
+    self.setBoundStyle(self.boundStyle); //	设置边界样式
+
+    if (self.type !== '2d') {
+      self.ctx.draw(false, done);
+    }
+
+    done && done();
+    return self
+  };
+
+  self.pushOrigin = self.pushOrign = function (src) {
+    self.src = src;
+
+    isFunc(self.onBeforeImageLoad) && self.onBeforeImageLoad(self.ctx, self);
+
+    return loadCanvasImage(self, src).then(function (img) {
+      self.croperTarget = img;
+
+      return getImageInfo({ src: src })
+        .then(function (res) {
+          var innerAspectRadio = res.width / res.height;
+          var customAspectRadio = width / height;
+
+          if (innerAspectRadio < customAspectRadio) {
+            self.rectX = x;
+            self.baseWidth = width;
+            self.baseHeight = width / innerAspectRadio;
+            self.rectY = y - Math.abs((height - self.baseHeight) / 2);
+          } else {
+            self.rectY = y;
+            self.baseWidth = height * innerAspectRadio;
+            self.baseHeight = height;
+            self.rectX = x - Math.abs((width - self.baseWidth) / 2);
+          }
+
+          self.imgLeft = self.rectX;
+          self.imgTop = self.rectY;
+          self.scaleWidth = self.baseWidth;
+          self.scaleHeight = self.baseHeight;
+
+          self.update();
+
+          return new Promise(function (resolve) {
+            self.updateCanvas(resolve);
+          })
+        })
+        .then(function () {
+          isFunc(self.onImageLoad) && self.onImageLoad(self.ctx, self);
+        })
+    })
+  };
+
+  self.removeImage = function () {
+    self.src = '';
+    self.croperTarget = '';
+
+    if (self.type === '2d') {
+      return self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height)
+    } else {
+      return draw(self.ctx)
+    }
+  };
+
+  self.getCropperBase64 = function (done) {
+    if ( done === void 0 ) done = function () {};
+
+    CanvasToBase64.convertToBMP({
+      canvasId: id,
+      x: x,
+      y: y,
+      width: width,
+      height: height
+    }, done);
+  };
+
+  self.getCropperImage = function (opt, fn) {
+    var customOptions = Object.assign({fileType: 'jpg'}, opt);
+    var callback = isFunc(opt) ? opt : isFunc(fn) ? fn : null;
+
+    var canvasOptions = {
+      canvasId: id,
+      x: x,
+      y: y,
+      width: width,
+      height: height
+    };
+
+    if (self.type === '2d') {
+      canvasOptions.canvas = self.canvas;
+    }
+
+    var task = function () { return Promise.resolve(); };
+
+    if (customOptions.original) {
+      // original mode
+      task = function () {
+        self.targetCtx.drawImage(
+          self.croperTarget,
+          self.imgLeft * pixelRatio,
+          self.imgTop * pixelRatio,
+          self.scaleWidth * pixelRatio,
+          self.scaleHeight * pixelRatio
+        );
+
+        canvasOptions = {
+          canvasId: targetId,
+          x: x * pixelRatio,
+          y: y * pixelRatio,
+          width: width * pixelRatio,
+          height: height * pixelRatio
+        };
+
+        return draw(self.targetCtx)
+      };
+    }
+
+    return task()
+      .then(function () {
+        Object.assign(canvasOptions, customOptions);
+        var arg = canvasOptions.componentContext
+          ? [canvasOptions, canvasOptions.componentContext]
+          : [canvasOptions];
+
+        return canvasToTempFilePath.apply(null, arg)
+      })
+      .then(function (res) {
+        var tempFilePath = res.tempFilePath;
+        return callback
+          ? callback.call(self, tempFilePath, null)
+          : tempFilePath
+      })
+      .catch(function (err) {
+        if (callback) {
+          callback.call(self, null, err);
+        } else {
+          throw err
+        }
+      })
+  };
+}
+
+/**
+ * 获取最新缩放值
+ * @param oldScale 上一次触摸结束后的缩放值
+ * @param oldDistance 上一次触摸结束后的双指距离
+ * @param zoom 缩放系数
+ * @param touch0 第一指touch对象
+ * @param touch1 第二指touch对象
+ * @returns {*}
+ */
+var getNewScale = function (oldScale, oldDistance, zoom, touch0, touch1) {
+  var xMove, yMove, newDistance;
+  // 计算二指最新距离
+  xMove = Math.round(touch1.x - touch0.x);
+  yMove = Math.round(touch1.y - touch0.y);
+  newDistance = Math.round(Math.sqrt(xMove * xMove + yMove * yMove));
+
+  return oldScale + 0.001 * zoom * (newDistance - oldDistance)
+};
+
+function update () {
+  var self = this;
+
+  if (!self.src) { return }
+
+  self.__oneTouchStart = function (touch) {
+    self.touchX0 = Math.round(touch.x);
+    self.touchY0 = Math.round(touch.y);
+  };
+
+  self.__oneTouchMove = function (touch) {
+    var xMove, yMove;
+    // 计算单指移动的距离
+    if (self.touchended) {
+      return self.updateCanvas()
+    }
+    xMove = Math.round(touch.x - self.touchX0);
+    yMove = Math.round(touch.y - self.touchY0);
+
+    var imgLeft = Math.round(self.rectX + xMove);
+    var imgTop = Math.round(self.rectY + yMove);
+
+    self.outsideBound(imgLeft, imgTop);
+
+    self.updateCanvas();
+  };
+
+  self.__twoTouchStart = function (touch0, touch1) {
+    var xMove, yMove, oldDistance;
+
+    self.touchX1 = Math.round(self.rectX + self.scaleWidth / 2);
+    self.touchY1 = Math.round(self.rectY + self.scaleHeight / 2);
+
+    // 计算两指距离
+    xMove = Math.round(touch1.x - touch0.x);
+    yMove = Math.round(touch1.y - touch0.y);
+    oldDistance = Math.round(Math.sqrt(xMove * xMove + yMove * yMove));
+
+    self.oldDistance = oldDistance;
+  };
+
+  self.__twoTouchMove = function (touch0, touch1) {
+    var oldScale = self.oldScale;
+    var oldDistance = self.oldDistance;
+    var scale = self.scale;
+    var zoom = self.zoom;
+
+    self.newScale = getNewScale(oldScale, oldDistance, zoom, touch0, touch1);
+
+    //  设定缩放范围
+    self.newScale <= 1 && (self.newScale = 1);
+    self.newScale >= scale && (self.newScale = scale);
+
+    self.scaleWidth = Math.round(self.newScale * self.baseWidth);
+    self.scaleHeight = Math.round(self.newScale * self.baseHeight);
+    var imgLeft = Math.round(self.touchX1 - self.scaleWidth / 2);
+    var imgTop = Math.round(self.touchY1 - self.scaleHeight / 2);
+
+    self.outsideBound(imgLeft, imgTop);
+
+    self.updateCanvas();
+  };
+
+  self.__xtouchEnd = function () {
+    self.oldScale = self.newScale;
+    self.rectX = self.imgLeft;
+    self.rectY = self.imgTop;
+  };
+}
+
+var handle = {
+  //  图片手势初始监测
+  touchStart: function touchStart (e) {
+    var self = this;
+    var ref = e.touches;
+    var touch0 = ref[0];
+    var touch1 = ref[1];
+
+    if (!self.src) { return }
+
+    setTouchState(self, true, null, null);
+
+    // 计算第一个触摸点的位置，并参照改点进行缩放
+    self.__oneTouchStart(touch0);
+
+    // 两指手势触发
+    if (e.touches.length >= 2) {
+      self.__twoTouchStart(touch0, touch1);
+    }
+  },
+
+  //  图片手势动态缩放
+  touchMove: function touchMove (e) {
+    var self = this;
+    var ref = e.touches;
+    var touch0 = ref[0];
+    var touch1 = ref[1];
+
+    if (!self.src) { return }
+
+    setTouchState(self, null, true);
+
+    // 单指手势时触发
+    if (e.touches.length === 1) {
+      self.__oneTouchMove(touch0);
+    }
+    // 两指手势触发
+    if (e.touches.length >= 2) {
+      self.__twoTouchMove(touch0, touch1);
+    }
+  },
+
+  touchEnd: function touchEnd (e) {
+    var self = this;
+
+    if (!self.src) { return }
+
+    setTouchState(self, false, false, true);
+    self.__xtouchEnd();
+  }
+};
+
+function cut () {
+  var self = this;
+  var boundWidth = self.width; // 裁剪框默认宽度，即整个画布宽度
+  var boundHeight = self.height;
+  // 裁剪框默认高度，即整个画布高度
+  var ref = self.cut;
+  var x = ref.x; if ( x === void 0 ) x = 0;
+  var y = ref.y; if ( y === void 0 ) y = 0;
+  var width = ref.width; if ( width === void 0 ) width = boundWidth;
+  var height = ref.height; if ( height === void 0 ) height = boundHeight;
+
+  /**
+   * 设置边界
+   * @param imgLeft 图片左上角横坐标值
+   * @param imgTop 图片左上角纵坐标值
+   */
+  self.outsideBound = function (imgLeft, imgTop) {
+    self.imgLeft = imgLeft >= x
+      ? x
+      : self.scaleWidth + imgLeft - x <= width
+        ? x + width - self.scaleWidth
+        :	imgLeft;
+
+    self.imgTop = imgTop >= y
+      ? y
+      : self.scaleHeight + imgTop - y <= height
+        ? y + height - self.scaleHeight
+        : imgTop;
+  };
+
+  /**
+   * 设置边界样式
+   * @param color	边界颜色
+   */
+  self.setBoundStyle = function (ref) {
+    if ( ref === void 0 ) ref = {};
+    var color = ref.color; if ( color === void 0 ) color = '#04b00f';
+    var mask = ref.mask; if ( mask === void 0 ) mask = 'rgba(0, 0, 0, 0.3)';
+    var lineWidth = ref.lineWidth; if ( lineWidth === void 0 ) lineWidth = 1;
+
+    var half = lineWidth / 2;
+    var boundOption = [
+      {
+        start: { x: x - half, y: y + 10 - half },
+        step1: { x: x - half, y: y - half },
+        step2: { x: x + 10 - half, y: y - half }
+      },
+      {
+        start: { x: x - half, y: y + height - 10 + half },
+        step1: { x: x - half, y: y + height + half },
+        step2: { x: x + 10 - half, y: y + height + half }
+      },
+      {
+        start: { x: x + width - 10 + half, y: y - half },
+        step1: { x: x + width + half, y: y - half },
+        step2: { x: x + width + half, y: y + 10 - half }
+      },
+      {
+        start: { x: x + width + half, y: y + height - 10 + half },
+        step1: { x: x + width + half, y: y + height + half },
+        step2: { x: x + width - 10 + half, y: y + height + half }
+      }
+    ];
+
+    // 绘制半透明层
+    self.ctx.beginPath();
+    adapt2d(self, 'fillStyle', mask);
+    self.ctx.fillRect(0, 0, x, boundHeight);
+    self.ctx.fillRect(x, 0, width, y);
+    self.ctx.fillRect(x, y + height, width, boundHeight - y - height);
+    self.ctx.fillRect(x + width, 0, boundWidth - x - width, boundHeight);
+    self.ctx.fill();
+
+    boundOption.forEach(function (op) {
+      self.ctx.beginPath();
+      adapt2d(self, 'strokeStyle', color);
+      adapt2d(self, 'lineWidth', lineWidth);
+      self.ctx.moveTo(op.start.x, op.start.y);
+      self.ctx.lineTo(op.step1.x, op.step1.y);
+      self.ctx.lineTo(op.step2.x, op.step2.y);
+      self.ctx.stroke();
+    });
+  };
+}
+
+var version = "1.4.0";
+
+var WeCropper = function WeCropper (params) {
+  var self = this;
+  var _default = {};
+
+  validator(self, DEFAULT);
+
+  Object.keys(DEFAULT).forEach(function (key) {
+    _default[key] = DEFAULT[key].default;
+  });
+  Object.assign(self, _default, params);
+
+  self.prepare();
+  self.attachPage();
+  self.createCtx();
+  self.observer();
+  self.cutt();
+  self.methods();
+  self.init();
+  self.update();
+
+  return self
+};
+
+WeCropper.prototype.init = function init () {
+  var self = this;
+  var src = self.src;
+
+  self.version = version;
+
+  typeof self.onReady === 'function' && self.onReady(self.ctx, self);
+
+  if (src) {
+    self.pushOrign(src);
+  } else {
+    self.updateCanvas();
+  }
+  setTouchState(self, false, false, false);
+
+  self.oldScale = 1;
+  self.newScale = 1;
+
+  return self
+};
+
+Object.assign(WeCropper.prototype, handle);
+
+WeCropper.prototype.prepare = prepare;
+WeCropper.prototype.observer = observer;
+WeCropper.prototype.methods = methods;
+WeCropper.prototype.cutt = cut;
+WeCropper.prototype.update = update;
+
+return WeCropper;
+
+})));

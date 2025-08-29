@@ -1,6 +1,6 @@
 {
-  "navigationBarTitleText": "基础能力",
+  "navigationBarTitleText": "indexjson",
   "usingComponents": {
-    "cloud-tip-modal": "/components/we-cropper/we-cropper"
+    "we-cropper": "/components/we-cropper/we-cropper"
   }
 }
