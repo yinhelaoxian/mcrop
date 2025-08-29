@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "indexjson",
   "usingComponents": {
-    "we-cropper": "/components/we-cropper/we-cropper"
+      "we-cropper": "/components/we-cropper/we-cropper"
   }
 }

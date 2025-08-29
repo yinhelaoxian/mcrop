@@ -1,7 +1,21 @@
-<view class="page">
-  <we-cropper id="cropper" width="{{cropperOpt.width}}" height="{{cropperOpt.height}}" src="{{cropperOpt.src}}"></we-cropper>
-  <view class="button-group">
-    <button bindtap="chooseImage">选择图片</button>
-    <button bindtap="getCropperImage">裁剪图片</button>
+<view class="container">
+  <button bindtap="chooseImage">选择图片</button>
+
+  <view wx:if="{{showCropper}}" class="cropper-wrapper">
+    <we-cropper
+      src="{{imageSrc}}"
+      boundWidth="750"
+      boundHeight="750"
+      cutWidth="400"
+      cutHeight="400"
+      bindconfirm="onCropConfirm"
+      bindcancel="onCropCancel"
+    />
+    <view class="btn-group">
+      <button bindtap="onCancelCrop">取消</button>
+      <button type="primary" bindtap="onConfirmCrop">确定裁剪</button>
+    </view>
   </view>
+
+  <image wx:if="{{croppedImage}}" mode="aspectFit" src="{{croppedImage}}" class="preview" />
 </view>

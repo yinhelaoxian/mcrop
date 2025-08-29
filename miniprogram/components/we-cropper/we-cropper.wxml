@@ -1,17 +1,22 @@
-<template name="we-cropper">
-  <canvas
-    class="cropper"
+<view class="we-cropper-container">
+  <canvas 
+    type="2d" 
+    id="cropper" 
+    class="we-cropper-canvas" 
     disable-scroll="true"
-    bindtouchstart="touchStart"
-    bindtouchmove="touchMove"
+    bindtouchstart="touchStart" 
+    bindtouchmove="touchMove" 
     bindtouchend="touchEnd"
-    style="width:{{width}}px;height:{{height}}px;background-color: rgba(0, 0, 0, 0.8)"
-    canvas-id="{{id}}">
-  </canvas>
-  <canvas
-    class="cropper"
-    disable-scroll="true"
-    style="position: fixed; top: -{{width * pixelRatio}}px; left: -{{height * pixelRatio}}px; width:{{width * pixelRatio}}px;height:{{height * pixelRatio}}px;"
-    canvas-id="{{targetId}}">
-  </canvas>
-</template>
+  ></canvas>
+
+  <!-- 裁剪框 -->
+  <view class="cropper-area">
+    <view class="area-mask area-mask-top"></view>
+    <view class="area-mask area-mask-right"></view>
+    <view class="area-mask area-mask-bottom"></view>
+    <view class="area-mask area-mask-left"></view>
+
+    <view class="area-border" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></view>
+    <view class="area-dashed" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></view>
+  </view>
+</view>
