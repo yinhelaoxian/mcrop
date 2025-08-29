@@ -1,7 +1,12 @@
-<view class="container">
-  <button bindtap="chooseImage">选择图片</button>
+<view class="page-container">
+  <!-- 主操作区 -->
+  <view class="action-section">
+    <button class="btn-primary" bindtap="chooseImage">选择图片</button>
+  </view>
 
-  <view wx:if="{{showCropper}}" class="cropper-wrapper">
+  <!-- 裁剪模态层 -->
+  <view wx:if="{{showCropper}}" class="cropper-modal">
+    <!-- 裁剪组件 -->
     <we-cropper
       id="cropper"
       src="{{imageSrc}}"
@@ -12,11 +17,16 @@
       bindconfirm="onCropConfirm"
       bindcancel="onCropCancel"
     />
-    <view class="btn-group">
-      <button bindtap="onCancelCrop">取消</button>
-      <button type="primary" bindtap="onConfirmCrop">确定裁剪</button>
+    
+    <!-- 操作按钮组 -->
+    <view class="cropper-actions">
+      <button class="btn-cancel" bindtap="onCancelCrop">取消</button>
+      <button class="btn-confirm" type="primary" bindtap="onConfirmCrop">确定裁剪</button>
     </view>
   </view>
 
-  <image wx:if="{{croppedImage}}" mode="aspectFit" src="{{croppedImage}}" class="preview" />
+  <!-- 裁剪结果预览 -->
+  <view wx:if="{{croppedImage}}" class="preview-section">
+    <image class="preview-image" mode="aspectFit" src="{{croppedImage}}" />
+  </view>
 </view>

@@ -109,16 +109,21 @@ Component({
 
     drawImage() {
       if (!this.ctx || !this.data.src) return;
-
+    
       const { src, imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
       const ctx = this.ctx;
-
-      // 清空画布
+    
+      // ✅ 清空画布
       ctx.clearRect(0, 0, this.properties.boundWidth, this.properties.boundHeight);
-
+    
+      // ✅ 使用 canvas.createImage()
       const image = this.canvas.createImage();
+    
+      // ✅ 确保 src 是本地临时文件路径（如 wx.chooseImage 返回的）
       image.src = src;
+    
       image.onload = () => {
+        console.log('✅ 图片加载成功，开始绘制', image.width, image.height);
         ctx.drawImage(
           image,
           imageLeft,
@@ -126,9 +131,14 @@ Component({
           imageWidth * scale,
           imageHeight * scale
         );
+        // ✅ 主动触发绘制
+        ctx.draw && ctx.draw();
       };
+    
       image.onerror = (err) => {
-        console.error('图片加载失败', err);
+        console.error('❌ 图片加载失败', err, 'src:', src);
+        // ✅ 提示用户
+        wx.showToast({ title: '图片加载失败', icon: 'error' });
       };
     },
 
