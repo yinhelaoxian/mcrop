@@ -1,0 +1,17 @@
+.page {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button-group {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+button {
+  width: 45%;
+  background-color: #07c160;
+  color: #fff;
+}

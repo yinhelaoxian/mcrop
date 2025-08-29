@@ -1,0 +1,7 @@
+<view class="page">
+  <we-cropper id="cropper" width="{{cropperOpt.width}}" height="{{cropperOpt.height}}" src="{{cropperOpt.src}}"></we-cropper>
+  <view class="button-group">
+    <button bindtap="chooseImage">选择图片</button>
+    <button bindtap="getCropperImage">裁剪图片</button>
+  </view>
+</view>
