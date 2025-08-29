@@ -7,24 +7,28 @@ Page({
 
  chooseImage() {
    wx.chooseImage({
+     count: 1,
      success: (res) => {
        this.setData({
          imageSrc: res.tempFilePaths[0],
          showCropper: true
-       }, () => {
-         // 数据更新后，确保组件已渲染
-         this.cropperComponent = this.selectComponent('#cropper');
        });
      }
    });
  },
 
  onConfirmCrop() {
-   if (this.cropperComponent) {
-     this.cropperComponent.getCropperImage();
+   const cropper = this.selectComponent('#cropper');
+   if (cropper) {
+     cropper.getCropperImage();
    } else {
-     console.error('裁剪组件未初始化');
+     console.error('未找到裁剪组件');
+     wx.showToast({ title: '组件未找到', icon: 'error' });
    }
+ },
+
+ onCancelCrop() {
+   this.setData({ showCropper: false });
  },
 
  onCropConfirm(e) {
@@ -40,4 +44,4 @@ Page({
    this.setData({ showCropper: false });
    wx.showToast({ title: '已取消', icon: 'none' });
  }
-})
+});

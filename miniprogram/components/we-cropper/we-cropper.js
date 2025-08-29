@@ -4,7 +4,6 @@ const dpr = wx.getDeviceInfo().pixelRatio;
 
 Component({
   properties: {
-    // 要裁剪的图片路径
     src: {
       type: String,
       value: '',
@@ -14,7 +13,6 @@ Component({
         }
       }
     },
-    // 裁剪区域的容器宽高 (px)
     boundWidth: {
       type: Number,
       value: windowWidth
@@ -23,7 +21,6 @@ Component({
       type: Number,
       value: windowWidth
     },
-    // 最终裁剪输出的宽高 (px)
     cutWidth: {
       type: Number,
       value: 400
@@ -35,46 +32,32 @@ Component({
   },
 
    data: () => ({
-    // 图片缩放比例
     scale: 1,
-    // 最小缩放比例
     scaleMin: 0.5,
-    // 最大缩放比例
     scaleMax: 3,
-    // 手势起始点
     startTouch: null,
-    // 双指距离
     touchDistance: 0,
-    // 图片位置
     imageLeft: 0,
     imageTop: 0,
-    // 图片渲染尺寸
     imageWidth: 0,
     imageHeight: 0,
-    // 裁剪框位置
     cropperLeft: 0,
     cropperTop: 0,
-    // Canvas 实例
     canvas: null,
-    // Canvas 2D 上下文
     ctx: null
   }),
 
   methods: {
-    /**
-     * 初始化，获取图片信息
-     */
     init() {
       const { src, boundWidth, boundHeight, cutWidth, cutHeight } = this.properties;
-
+    
       wx.getImageInfo({
         src,
         success: (info) => {
           console.log('获取图片信息成功', info);
-          let imgWidth, imgHeight;
+          let imgWidth, imgHeight; // ✅ 定义变量
           const ratio = info.width / info.height;
-
-          // 保持图片在容器内，等比缩放
+    
           if (info.width > info.height) {
             imgWidth = boundWidth;
             imgHeight = boundWidth / ratio;
@@ -82,22 +65,23 @@ Component({
             imgHeight = boundHeight;
             imgWidth = boundHeight * ratio;
           }
-
+    
           const imageLeft = (boundWidth - imgWidth) / 2;
           const imageTop = (boundHeight - imgHeight) / 2;
-
+    
           const cropperLeft = (boundWidth - cutWidth) / 2;
           const cropperTop = (boundHeight - cutHeight) / 2;
-
+    
+          // ✅ 使用正确的变量名：imgWidth, imgHeight
           this.setData({
             imageLeft,
             imageTop,
-            imageWidth: imgWidth,
-            imageHeight: imgHeight,
+            imageWidth: imgWidth,   // ✅ 不是 imageWidth: imageWidth
+            imageHeight: imgHeight, // ✅ 
             cropperLeft,
-            cropperTop
+            cropperTop,
+            scale: 1 // ✅ 确保 scale 有初始值
           }, () => {
-            // 数据更新后绘制
             this.drawImage();
           });
         },
@@ -108,22 +92,31 @@ Component({
       });
     },
 
-    /**
-     * 将图片绘制到 Canvas 上
-     */
     drawImage() {
       if (!this.ctx || !this.data.src) return;
-
-      const { src, imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
+    
+      const { imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
+    
+      // ✅ 安全检查
+      if (!imageWidth || !imageHeight || !scale || isNaN(imageWidth) || isNaN(imageHeight) || isNaN(scale)) {
+        console.error('❌ 绘制参数无效', { imageWidth, imageHeight, scale });
+        return;
+      }
+    
       const ctx = this.ctx;
-
-      // 清空画布
       ctx.clearRect(0, 0, this.properties.boundWidth, this.properties.boundHeight);
-
-      // ✅ 使用 new Image()，更稳定
-      const image = new Image();
+    
+      const image = this.canvas.createImage();
+    
       image.onload = () => {
-        console.log('✅ 图片已加载，开始绘制');
+        console.log('✅ 图片加载成功，开始绘制');
+        console.log('绘制参数:', { 
+          imageLeft, 
+          imageTop, 
+          width: imageWidth * scale, 
+          height: imageHeight * scale 
+        });
+    
         ctx.drawImage(
           image,
           imageLeft,
@@ -131,20 +124,15 @@ Component({
           imageWidth * scale,
           imageHeight * scale
         );
-        // ✅ 主动触发绘制
-        ctx.draw();
       };
+    
       image.onerror = (err) => {
-        console.error('❌ 图片加载失败', err, 'src:', src);
-        wx.showToast({ title: '图片加载失败', icon: 'error' });
+        console.error('❌ 图片加载失败', err);
       };
-      // ✅ 最后设置 src，确保事件已绑定
+    
       image.src = src;
     },
 
-    /**
-     * 触摸开始
-     */
     touchStart(e) {
       if (e.touches.length >= 2) {
         this.data.touchDistance = this.getDistance(e.touches[0], e.touches[1]);
@@ -155,9 +143,6 @@ Component({
       };
     },
 
-    /**
-     * 触摸移动（缩放、拖动）
-     */
     touchMove(e) {
       const { startTouch, touchDistance, scaleMin, scaleMax, scale } = this.data;
 
@@ -191,25 +176,16 @@ Component({
       }
     },
 
-    /**
-     * 触摸结束
-     */
     touchEnd() {
       this.data.startTouch = null;
     },
 
-    /**
-     * 计算两点间距离
-     */
     getDistance(p1, p2) {
       const dx = p1.clientX - p2.clientX;
       const dy = p1.clientY - p2.clientY;
       return Math.hypot(dx, dy);
     },
 
-    /**
-     * 执行裁剪，生成裁剪后的图片
-     */
     getCropperImage() {
       if (!this.canvas) {
         console.error('❌ Canvas 未初始化');
@@ -218,7 +194,6 @@ Component({
       }
 
       const { cropperLeft, cropperTop, cutWidth, cutHeight } = this.properties;
-      const { scale = 1 } = this.data;
       const dpr = wx.getDeviceInfo().pixelRatio;
 
       // 计算裁剪区域在 canvas 上的实际像素
@@ -247,17 +222,11 @@ Component({
       }, this);
     },
 
-    /**
-     * 取消裁剪
-     */
     cancel() {
       this.triggerEvent('cancel');
     }
   },
 
-  /**
-   * 组件实例化完成后，初始化 Canvas
-   */
   ready() {
     const query = this.createSelectorQuery();
     query.select('#cropper').fields({ node: true, size: true }).exec((res) => {
@@ -269,17 +238,16 @@ Component({
       const canvas = res[0].node;
       const ctx = canvas.getContext('2d');
 
-      // 设置 canvas 实际像素
+      // ✅ 设置 canvas 的绘图表面大小
       canvas.width = res[0].width * dpr;
       canvas.height = res[0].height * dpr;
-      // 缩放上下文，使绘制单位与逻辑像素一致
+
+      // ✅ 缩放上下文，使绘图单位与逻辑像素一致
       ctx.scale(dpr, dpr);
 
-      // 保存到组件实例
       this.canvas = canvas;
       this.ctx = ctx;
 
-      // 如果已有图片，则绘制
       if (this.data.src) {
         this.drawImage();
       }
