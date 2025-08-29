@@ -95,13 +95,8 @@ Component({
     drawImage() {
       if (!this.ctx || !this.data.src) return;
     
-      const { imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
-    
-      // ✅ 安全检查
-      if (!imageWidth || !imageHeight || !scale || isNaN(imageWidth) || isNaN(imageHeight) || isNaN(scale)) {
-        console.error('❌ 绘制参数无效', { imageWidth, imageHeight, scale });
-        return;
-      }
+      // ✅ 解构时包含 `src`
+      const { src, imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
     
       const ctx = this.ctx;
       ctx.clearRect(0, 0, this.properties.boundWidth, this.properties.boundHeight);
@@ -130,6 +125,7 @@ Component({
         console.error('❌ 图片加载失败', err);
       };
     
+      // ✅ 现在 `src` 已正确定义
       image.src = src;
     },
 
