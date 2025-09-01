@@ -17,7 +17,7 @@
     <cover-view class="area-mask area-mask-bottom"></cover-view>
     <cover-view class="area-mask area-mask-left"></cover-view>
 
-    <cover-view class="area-border" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
-    <cover-view class="area-dashed" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
+    <cover-view class="area-border" style="left: {{cropperLeft}}px; top: {{cropperTop}}px; width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
+    <cover-view class="area-dashed" style="left: {{cropperLeft}}px; top: {{cropperTop}}px; width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
   </cover-view>
 </view>

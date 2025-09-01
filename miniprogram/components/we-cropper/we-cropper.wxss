@@ -3,7 +3,6 @@
   position: relative;
   width: 100%;
   height: 100%;
-  /* background-color: #000; 如果需要，可以在 container 上加背景 */
 }
 
 /* canvas */
@@ -19,7 +18,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /* pointer-events: none; cover-view 不支持此属性，但默认就是不可交互 */
 }
 
 /* 遮罩层 */
@@ -51,20 +49,16 @@
   right: 0;
 }
 
-/* 裁剪边框 */
+/* 裁剪边框 - 使用 cover-view 支持的布局 */
 .area-border {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* 使用 left/top/cutWidth/cutHeight 计算位置 */
+  /* 注意：这里不能用 transform */
   border: 1px solid #1aad19;
   box-sizing: border-box;
 }
 .area-dashed {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border: 1px dashed #fff;
   box-sizing: border-box;
 }
