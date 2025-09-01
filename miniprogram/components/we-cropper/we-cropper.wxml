@@ -9,14 +9,14 @@
     bindtouchend="touchEnd"
   ></canvas>
 
-  <!-- 裁剪框 -->
-  <view class="cropper-area">
-    <view class="area-mask area-mask-top"></view>
-    <view class="area-mask area-mask-right"></view>
-    <view class="area-mask area-mask-bottom"></view>
-    <view class="area-mask area-mask-left"></view>
+  <!-- 使用 cover-view 覆盖在 canvas 上 -->
+  <cover-view class="cropper-area">
+    <cover-view class="area-mask area-mask-top"></cover-view>
+    <cover-view class="area-mask area-mask-right"></cover-view>
+    <cover-view class="area-mask area-mask-bottom"></cover-view>
+    <cover-view class="area-mask area-mask-left"></cover-view>
 
-    <view class="area-border" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></view>
-    <view class="area-dashed" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></view>
-  </view>
+    <cover-view class="area-border" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
+    <cover-view class="area-dashed" style="width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
+  </cover-view>
 </view>

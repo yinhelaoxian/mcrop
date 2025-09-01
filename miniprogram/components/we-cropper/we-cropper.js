@@ -226,24 +226,20 @@ Component({
   ready() {
     const query = this.createSelectorQuery();
     query.select('#cropper').fields({ node: true, size: true }).exec((res) => {
-      if (!res || !res[0]) {
-        console.error('❌ 未找到 canvas 节点');
-        return;
-      }
-
       const canvas = res[0].node;
       const ctx = canvas.getContext('2d');
-
-      // ✅ 设置 canvas 的绘图表面大小
-      canvas.width = res[0].width * dpr;
+      const dpr = wx.getDeviceInfo().pixelRatio;
+  
+      // ✅ 必须设置这两行
+      canvas.width = res[0].width * dpr;  // 逻辑像素 * dpr = 物理像素
       canvas.height = res[0].height * dpr;
-
-      // ✅ 缩放上下文，使绘图单位与逻辑像素一致
+  
+      // ✅ 必须设置 scale，使绘图单位与逻辑像素一致
       ctx.scale(dpr, dpr);
-
+  
       this.canvas = canvas;
       this.ctx = ctx;
-
+  
       if (this.data.src) {
         this.drawImage();
       }
