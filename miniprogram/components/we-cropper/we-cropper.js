@@ -100,14 +100,12 @@ Component({
       const { src, imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
       const ctx = this.ctx;
     
-      // 清空画布
       ctx.clearRect(0, 0, this.properties.boundWidth, this.properties.boundHeight);
     
-      // ✅ 直接创建图片并绘制，不依赖 onload
       const image = this.canvas.createImage();
+      
+      // ✅ 不依赖 onload，直接绘制
       image.src = src;
-    
-      // ✅ 直接绘制，Canvas 2D 会自动处理加载
       ctx.drawImage(
         image,
         imageLeft,
@@ -116,10 +114,8 @@ Component({
         imageHeight * scale
       );
     
-      // ✅ 可选：添加 error 处理
       image.onerror = (err) => {
         console.error('图片加载失败', err);
-        wx.showToast({ title: '图片加载失败', icon: 'error' });
       };
     },
 
@@ -220,20 +216,17 @@ Component({
   ready() {
     const query = this.createSelectorQuery();
     query.select('#cropper').fields({ node: true, size: true }).exec((res) => {
-      if (!res || !res[0]) return;
-  
       const canvas = res[0].node;
       const ctx = canvas.getContext('2d');
-      const dpr = wx.getDeviceInfo().pixelRatio;
-  
-      // ✅ 设置 canvas 物理像素
+      const dpr = wx.getDeviceInfo().pixelRatio; // 或 wx.getWindowInfo().screenWidth / wx.getWindowInfo().windowWidth
+
       canvas.width = res[0].width * dpr;
       canvas.height = res[0].height * dpr;
-      ctx.scale(dpr, dpr); // 缩放绘图单位
-  
+      ctx.scale(dpr, dpr);
+
       this.canvas = canvas;
       this.ctx = ctx;
-  
+
       if (this.data.src) {
         this.drawImage();
       }

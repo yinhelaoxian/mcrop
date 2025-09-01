@@ -1,3 +1,4 @@
+/* pages/index/index.wxss */
 .page-container {
   display: flex;
   flex-direction: column;
@@ -8,6 +9,7 @@
   box-sizing: border-box;
 }
 
+/* 按钮基础样式 */
 .button {
   width: 80%;
   height: 80rpx;
@@ -29,29 +31,24 @@
   border: 1px solid #ddd;
 }
 
+/* 主操作区 */
 .action-section {
   width: 100%;
   margin-bottom: 40rpx;
 }
 
-.cropper-modal {
+/* 裁剪模块 */
+.cropper-module {
   width: 100%;
-  height: 750rpx;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* 确保 we-cropper 容器有固定高度 */
+  height: 750rpx;
   background-color: #000;
   margin-bottom: 40rpx;
   overflow: hidden;
 }
 
-.cropper-modal we-cropper {
-  width: 100% !important;
-  height: 100% !important;
-}
-
+/* 裁剪操作按钮 */
 .cropper-actions {
   display: flex;
   justify-content: space-around;
@@ -61,6 +58,7 @@
   margin-top: 20rpx;
 }
 
+/* 预览区域 */
 .preview-section {
   width: 100%;
   display: flex;
