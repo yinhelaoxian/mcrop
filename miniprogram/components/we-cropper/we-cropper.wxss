@@ -1,60 +1,57 @@
+/* 容器 */
 .we-cropper-container {
   position: relative;
-  width: 750rpx;
-  height: 750rpx;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  /* background-color: #000; 如果需要，可以在 container 上加背景 */
 }
 
+/* canvas */
 .we-cropper-canvas {
   width: 100%;
   height: 100%;
 }
 
+/* 覆盖层 */
 .cropper-area {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  /* pointer-events: none; cover-view 不支持此属性，但默认就是不可交互 */
 }
 
+/* 遮罩层 */
 .area-mask {
   background-color: rgba(0, 0, 0, 0.6);
 }
-
-.area-mask-top {
+.area-mask-top, .area-mask-bottom {
   position: absolute;
-  top: 0;
   left: 0;
-  width: 100%;
-  height: 50%;
-}
-
-.area-mask-right {
-  position: absolute;
-  top: 0;
   right: 0;
-  bottom: 0;
-  width: 50%;
-}
-
-.area-mask-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   height: 50%;
 }
-
-.area-mask-left {
+.area-mask-top {
+  top: 0;
+}
+.area-mask-bottom {
+  bottom: 0;
+}
+.area-mask-left, .area-mask-right {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
+  bottom: 0;
   width: 50%;
 }
+.area-mask-left {
+  left: 0;
+}
+.area-mask-right {
+  right: 0;
+}
 
+/* 裁剪边框 */
 .area-border {
   position: absolute;
   top: 50%;
@@ -63,7 +60,6 @@
   border: 1px solid #1aad19;
   box-sizing: border-box;
 }
-
 .area-dashed {
   position: absolute;
   top: 50%;

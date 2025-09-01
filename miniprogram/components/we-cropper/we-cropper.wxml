@@ -1,4 +1,5 @@
 <view class="we-cropper-container">
+  <!-- Canvas 2D 画布 -->
   <canvas 
     type="2d" 
     id="cropper" 
@@ -9,7 +10,7 @@
     bindtouchend="touchEnd"
   ></canvas>
 
-  <!-- 使用 cover-view 覆盖在 canvas 上 -->
+  <!-- 使用 cover-view 覆盖在 canvas 上方 -->
   <cover-view class="cropper-area">
     <cover-view class="area-mask area-mask-top"></cover-view>
     <cover-view class="area-mask area-mask-right"></cover-view>
