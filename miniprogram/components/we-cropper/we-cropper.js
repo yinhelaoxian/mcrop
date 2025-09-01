@@ -96,50 +96,31 @@ Component({
 
     drawImage() {
       if (!this.ctx || !this.data.src) return;
-
+    
       const { src, imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
-      const { cutWidth, cutHeight, boundWidth, boundHeight } = this.properties;
       const ctx = this.ctx;
-
+    
       // 清空画布
-      ctx.clearRect(0, 0, boundWidth, boundHeight);
-
-      // 绘制图片
-      const img = this.canvas.createImage();
-      img.onload = () => {
-        ctx.drawImage(
-          img,
-          imageLeft,
-          imageTop,
-          imageWidth * scale,
-          imageHeight * scale
-        );
-
-        // ✅ 绘制遮罩
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-        ctx.fillRect(0, 0, boundWidth, (boundHeight - cutHeight) / 2); // 上
-        ctx.fillRect(0, (boundHeight - cutHeight) / 2, (boundWidth - cutWidth) / 2, cutHeight); // 左
-        ctx.fillRect((boundWidth + cutWidth) / 2, (boundHeight - cutHeight) / 2, (boundWidth - cutWidth) / 2, cutHeight); // 右
-        ctx.fillRect(0, (boundHeight + cutHeight) / 2, boundWidth, (boundHeight - cutHeight) / 2); // 下
-
-        // ✅ 绘制绿色实线边框
-        ctx.strokeStyle = '#1aad19';
-        ctx.lineWidth = 1;
-        ctx.strokeRect((boundWidth - cutWidth) / 2, (boundHeight - cutHeight) / 2, cutWidth, cutHeight);
-
-        // ✅ 绘制白色虚线边框
-        ctx.setLineDash([5, 5]);
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 1;
-        ctx.strokeRect((boundWidth - cutWidth) / 2, (boundHeight - cutHeight) / 2, cutWidth, cutHeight);
-        ctx.setLineDash([]); // 重置虚线
+      ctx.clearRect(0, 0, this.properties.boundWidth, this.properties.boundHeight);
+    
+      // ✅ 直接创建图片并绘制，不依赖 onload
+      const image = this.canvas.createImage();
+      image.src = src;
+    
+      // ✅ 直接绘制，Canvas 2D 会自动处理加载
+      ctx.drawImage(
+        image,
+        imageLeft,
+        imageTop,
+        imageWidth * scale,
+        imageHeight * scale
+      );
+    
+      // ✅ 可选：添加 error 处理
+      image.onerror = (err) => {
+        console.error('图片加载失败', err);
+        wx.showToast({ title: '图片加载失败', icon: 'error' });
       };
-
-      img.onerror = (err) => {
-        console.error('❌ 图片加载失败', err);
-      };
-
-      img.src = src;
     },
 
     touchStart(e) {
