@@ -1,5 +1,5 @@
+<!-- components/we-cropper/we-cropper.wxml -->
 <view class="we-cropper-container">
-  <!-- Canvas 2D 画布 -->
   <canvas 
     type="2d" 
     id="cropper" 
@@ -9,15 +9,4 @@
     bindtouchmove="touchMove" 
     bindtouchend="touchEnd"
   ></canvas>
-
-  <!-- 使用 cover-view 覆盖在 canvas 上方 -->
-  <cover-view class="cropper-area">
-    <cover-view class="area-mask area-mask-top"></cover-view>
-    <cover-view class="area-mask area-mask-right"></cover-view>
-    <cover-view class="area-mask area-mask-bottom"></cover-view>
-    <cover-view class="area-mask area-mask-left"></cover-view>
-
-    <cover-view class="area-border" style="left: {{cropperLeft}}px; top: {{cropperTop}}px; width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
-    <cover-view class="area-dashed" style="left: {{cropperLeft}}px; top: {{cropperTop}}px; width: {{cutWidth}}px; height: {{cutHeight}}px;"></cover-view>
-  </cover-view>
 </view>

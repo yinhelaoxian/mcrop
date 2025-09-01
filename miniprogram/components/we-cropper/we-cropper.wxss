@@ -1,64 +1,12 @@
-/* 容器 */
+/* components/we-cropper/we-cropper.wxss */
 .we-cropper-container {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 750rpx;
+  height: 750rpx;
+  background-color: #000; /* 确保背景是黑色 */
 }
 
-/* canvas */
 .we-cropper-canvas {
   width: 100%;
   height: 100%;
-}
-
-/* 覆盖层 */
-.cropper-area {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* 遮罩层 */
-.area-mask {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-.area-mask-top, .area-mask-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 50%;
-}
-.area-mask-top {
-  top: 0;
-}
-.area-mask-bottom {
-  bottom: 0;
-}
-.area-mask-left, .area-mask-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-}
-.area-mask-left {
-  left: 0;
-}
-.area-mask-right {
-  right: 0;
-}
-
-/* 裁剪边框 - 使用 cover-view 支持的布局 */
-.area-border {
-  position: absolute;
-  /* 使用 left/top/cutWidth/cutHeight 计算位置 */
-  /* 注意：这里不能用 transform */
-  border: 1px solid #1aad19;
-  box-sizing: border-box;
-}
-.area-dashed {
-  position: absolute;
-  border: 1px dashed #fff;
-  box-sizing: border-box;
 }

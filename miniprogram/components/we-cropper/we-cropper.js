@@ -92,41 +92,54 @@ Component({
       });
     },
 
+    // components/we-cropper/we-cropper.js
+
     drawImage() {
       if (!this.ctx || !this.data.src) return;
-    
-      // ✅ 解构时包含 `src`
+
       const { src, imageLeft, imageTop, imageWidth, imageHeight, scale } = this.data;
-    
+      const { cutWidth, cutHeight, boundWidth, boundHeight } = this.properties;
       const ctx = this.ctx;
-      ctx.clearRect(0, 0, this.properties.boundWidth, this.properties.boundHeight);
-    
-      const image = this.canvas.createImage();
-    
-      image.onload = () => {
-        console.log('✅ 图片加载成功，开始绘制');
-        console.log('绘制参数:', { 
-          imageLeft, 
-          imageTop, 
-          width: imageWidth * scale, 
-          height: imageHeight * scale 
-        });
-    
+
+      // 清空画布
+      ctx.clearRect(0, 0, boundWidth, boundHeight);
+
+      // 绘制图片
+      const img = this.canvas.createImage();
+      img.onload = () => {
         ctx.drawImage(
-          image,
+          img,
           imageLeft,
           imageTop,
           imageWidth * scale,
           imageHeight * scale
         );
+
+        // ✅ 绘制遮罩
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.fillRect(0, 0, boundWidth, (boundHeight - cutHeight) / 2); // 上
+        ctx.fillRect(0, (boundHeight - cutHeight) / 2, (boundWidth - cutWidth) / 2, cutHeight); // 左
+        ctx.fillRect((boundWidth + cutWidth) / 2, (boundHeight - cutHeight) / 2, (boundWidth - cutWidth) / 2, cutHeight); // 右
+        ctx.fillRect(0, (boundHeight + cutHeight) / 2, boundWidth, (boundHeight - cutHeight) / 2); // 下
+
+        // ✅ 绘制绿色实线边框
+        ctx.strokeStyle = '#1aad19';
+        ctx.lineWidth = 1;
+        ctx.strokeRect((boundWidth - cutWidth) / 2, (boundHeight - cutHeight) / 2, cutWidth, cutHeight);
+
+        // ✅ 绘制白色虚线边框
+        ctx.setLineDash([5, 5]);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.strokeRect((boundWidth - cutWidth) / 2, (boundHeight - cutHeight) / 2, cutWidth, cutHeight);
+        ctx.setLineDash([]); // 重置虚线
       };
-    
-      image.onerror = (err) => {
+
+      img.onerror = (err) => {
         console.error('❌ 图片加载失败', err);
       };
-    
-      // ✅ 现在 `src` 已正确定义
-      image.src = src;
+
+      img.src = src;
     },
 
     touchStart(e) {
@@ -226,16 +239,16 @@ Component({
   ready() {
     const query = this.createSelectorQuery();
     query.select('#cropper').fields({ node: true, size: true }).exec((res) => {
+      if (!res || !res[0]) return;
+  
       const canvas = res[0].node;
       const ctx = canvas.getContext('2d');
       const dpr = wx.getDeviceInfo().pixelRatio;
   
-      // ✅ 必须设置这两行
-      canvas.width = res[0].width * dpr;  // 逻辑像素 * dpr = 物理像素
+      // ✅ 设置 canvas 物理像素
+      canvas.width = res[0].width * dpr;
       canvas.height = res[0].height * dpr;
-  
-      // ✅ 必须设置 scale，使绘图单位与逻辑像素一致
-      ctx.scale(dpr, dpr);
+      ctx.scale(dpr, dpr); // 缩放绘图单位
   
       this.canvas = canvas;
       this.ctx = ctx;
